@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jXFqAcDO068=",
+  "dgSpecHash": "F+ZC4FyhlmM=",
   "success": true,
-  "projectFilePath": "D:\\nam4\\HK1\\6. DOTNET\\BT_nop\\bt-tuan6\\Razor-WebApplication\\Razor-WebApplication.csproj",
+  "projectFilePath": "C:\\Users\\142857\\Documents\\GitHub\\Razor-WebApplication\\Razor-WebApplication.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\142857\\.nuget\\packages\\microsoft.data.sqlite.core\\10.0.0\\microsoft.data.sqlite.core.10.0.0.nupkg.sha512",
     "C:\\Users\\142857\\.nuget\\packages\\microsoft.entityframeworkcore\\10.0.0\\microsoft.entityframeworkcore.10.0.0.nupkg.sha512",

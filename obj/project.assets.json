@@ -556,11 +556,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\nam4\\HK1\\6. DOTNET\\BT_nop\\bt-tuan6\\Razor-WebApplication\\Razor-WebApplication.csproj",
+      "projectUniqueName": "C:\\Users\\142857\\Documents\\GitHub\\Razor-WebApplication\\Razor-WebApplication.csproj",
       "projectName": "Razor-WebApplication",
-      "projectPath": "D:\\nam4\\HK1\\6. DOTNET\\BT_nop\\bt-tuan6\\Razor-WebApplication\\Razor-WebApplication.csproj",
+      "projectPath": "C:\\Users\\142857\\Documents\\GitHub\\Razor-WebApplication\\Razor-WebApplication.csproj",
       "packagesPath": "C:\\Users\\142857\\.nuget\\packages\\",
-      "outputPath": "D:\\nam4\\HK1\\6. DOTNET\\BT_nop\\bt-tuan6\\Razor-WebApplication\\obj\\",
+      "outputPath": "C:\\Users\\142857\\Documents\\GitHub\\Razor-WebApplication\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\142857\\AppData\\Roaming\\NuGet\\NuGet.Config"
