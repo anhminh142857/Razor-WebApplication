@@ -1,0 +1,62 @@
+@page
+@model Razor_WebApplication.Pages.Admin.IndexModel
+@{
+    ViewData["Title"] = "Tổng quan";
+    var customerPercent = Model.AccountCount == 0 ? 0 : (int)Math.Round(Model.CustomerCount * 100.0 / Model.AccountCount);
+    var adminPercent = Model.AccountCount == 0 ? 0 : (int)Math.Round(Model.AdminCount * 100.0 / Model.AccountCount);
+}
+<section class="admin-page admin-dashboard">
+    <div class="dashboard-welcome">
+        <div>
+            <span class="welcome-date">@DateTime.Now.ToString("dddd, dd/MM/yyyy", new System.Globalization.CultureInfo("vi-VN"))</span>
+            <h1>Xin chào, @User.Identity?.Name <span aria-hidden="true">👋</span></h1>
+            <p>Đây là tổng quan hoạt động của cửa hàng Sole Mate hôm nay.</p>
+        </div>
+        <a class="button button-light" asp-page="/Index">Xem cửa hàng <span aria-hidden="true">↗</span></a>
+    </div>
+
+    <div class="stats-grid">
+        <article class="stat-card stat-accounts"><span class="stat-icon">♙</span><div><small>Tổng tài khoản</small><strong>@Model.AccountCount</strong></div><small>Trong hệ thống</small></article>
+        <article class="stat-card stat-customers"><span class="stat-icon">♧</span><div><small>Khách hàng</small><strong>@Model.CustomerCount</strong></div><small>Tài khoản khách hàng</small></article>
+        <article class="stat-card stat-admins"><span class="stat-icon">✦</span><div><small>Quản trị viên</small><strong>@Model.AdminCount</strong></div><small>Tài khoản quản trị</small></article>
+        <article class="stat-card stat-products"><span class="stat-icon">◈</span><div><small>Sản phẩm</small><strong>@Model.ProductCount</strong></div><small>Đang có trong cửa hàng</small></article>
+    </div>
+
+    <div class="dashboard-panels">
+        <section class="admin-panel recent-accounts">
+            <div class="panel-heading"><div><h2>Tài khoản mới nhất</h2><p>Các tài khoản vừa tham gia cửa hàng</p></div><a asp-page="/Admin/Accounts">Xem tất cả <span aria-hidden="true">→</span></a></div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Tài khoản</th><th>Vai trò</th><th>Ngày tạo</th></tr></thead>
+                    <tbody>
+                    @foreach (var account in Model.RecentAccounts)
+                    {
+                        <tr>
+                            <td><div class="account-cell"><span class="account-avatar">@account.FullName.Substring(0, 1).ToUpperInvariant()</span><div><strong>@account.FullName</strong><small>@account.Email</small></div></div></td>
+                            <td><span class="role-pill @(account.Role == "Admin" ? "role-admin" : "role-user")">@(account.Role == "Admin" ? "Quản trị viên" : "Khách hàng")</span></td>
+                            <td>@account.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy")</td>
+                        </tr>
+                    }
+                    @if (Model.RecentAccounts.Count == 0)
+                    {
+                        <tr><td colspan="3" class="table-empty">Chưa có tài khoản nào.</td></tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="admin-panel role-summary">
+            <div class="panel-heading"><div><h2>Phân bổ vai trò</h2><p>Cơ cấu tài khoản trong hệ thống</p></div></div>
+            <div class="role-meter">
+                <div class="role-meter-label"><span>Khách hàng</span><strong>@Model.CustomerCount <small>(@customerPercent%)</small></strong></div>
+                <div class="meter-track"><span style="width: @customerPercent%"></span></div>
+            </div>
+            <div class="role-meter">
+                <div class="role-meter-label"><span>Quản trị viên</span><strong>@Model.AdminCount <small>(@adminPercent%)</small></strong></div>
+                <div class="meter-track meter-admin"><span style="width: @adminPercent%"></span></div>
+            </div>
+            <a class="manage-accounts-link" asp-page="/Admin/Accounts">Quản lý tài khoản <span aria-hidden="true">→</span></a>
+        </section>
+    </div>
+</section>

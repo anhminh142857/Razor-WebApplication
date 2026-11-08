@@ -1,0 +1,18 @@
+@page
+@model Razor_WebApplication.Pages.Admin.CustomersModel
+@{
+    ViewData["Title"] = "Quản lý khách hàng";
+}
+<section class="admin-page">
+    <div class="section-heading"><div><span class="eyebrow">KHÁCH HÀNG</span><h2>Khách hàng của cửa hàng</h2></div><span class="muted">@Model.Customers.Count khách hàng</span></div>
+    <div class="table-wrap">
+        <table class="data-table"><thead><tr><th>Khách hàng</th><th>Email</th><th>Ngày tham gia</th><th>Số đơn</th><th>Tổng mua</th></tr></thead>
+            <tbody>
+            @foreach (var customer in Model.Customers)
+            {
+                <tr><td><div class="customer-name"><span>@customer.FullName.Substring(0, 1).ToUpperInvariant()</span><strong>@customer.FullName</strong></div></td><td>@customer.Email</td><td>@customer.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy")</td><td>@customer.OrderCount</td><td>@customer.TotalSpent.ToString("N0")₫</td></tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</section>

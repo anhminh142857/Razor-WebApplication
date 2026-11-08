@@ -1,0 +1,75 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Sản phẩm";
+}
+
+<section class="shop-catalog" id="products">
+    <form method="get" class="catalog-search">
+        <label class="sr-only" for="catalog-query">Tên sản phẩm cần tìm</label>
+        <input id="catalog-query" name="SearchQuery" value="@Model.SearchQuery" placeholder="Nhập tên sản phẩm cần tìm..." />
+        <input type="hidden" name="MinPrice" value="@Model.MinPrice" />
+        <input type="hidden" name="MaxPrice" value="@Model.MaxPrice" />
+        <input type="hidden" name="Sort" value="@Model.Sort" />
+        <button type="submit" class="button button-dark"><span aria-hidden="true">⌕</span> Tìm kiếm</button>
+    </form>
+
+    <div class="catalog-layout">
+        <aside class="catalog-filter">
+            <form method="get">
+                <input type="hidden" name="SearchQuery" value="@Model.SearchQuery" />
+                <input type="hidden" name="Sort" value="@Model.Sort" />
+                <h2><span aria-hidden="true">☷</span> Bộ lọc tìm kiếm</h2>
+                <label>Khoảng giá (VND)</label>
+                <div class="price-range">
+                    <input type="number" name="MinPrice" min="0" step="1000" value="@Model.MinPrice" placeholder="Từ" aria-label="Giá thấp nhất" />
+                    <span>–</span>
+                    <input type="number" name="MaxPrice" min="0" step="1000" value="@Model.MaxPrice" placeholder="Đến" aria-label="Giá cao nhất" />
+                </div>
+                <button type="submit" class="button button-dark button-full">Áp dụng lọc</button>
+                <a class="button button-outline button-full" asp-page="/Index">Xóa bộ lọc</a>
+            </form>
+        </aside>
+
+        <div class="catalog-results">
+            <div class="catalog-heading">
+                <div><h1>Tất cả sản phẩm</h1><p>Tìm thấy @Model.ProductCount sản phẩm</p></div>
+                <form method="get" class="catalog-sort">
+                    <input type="hidden" name="SearchQuery" value="@Model.SearchQuery" />
+                    <input type="hidden" name="MinPrice" value="@Model.MinPrice" />
+                    <input type="hidden" name="MaxPrice" value="@Model.MaxPrice" />
+                    <label for="sort-products">Sắp xếp:</label>
+                    <select id="sort-products" name="Sort" onchange="this.form.submit()">
+                        <option value="newest" selected="@(Model.Sort == "newest")">Mới nhất</option>
+                        <option value="price-asc" selected="@(Model.Sort == "price-asc")">Giá thấp đến cao</option>
+                        <option value="price-desc" selected="@(Model.Sort == "price-desc")">Giá cao đến thấp</option>
+                    </select>
+                </form>
+            </div>
+
+            @if (Model.Products.Count == 0)
+            {
+                <div class="catalog-empty"><strong>Không tìm thấy sản phẩm phù hợp.</strong><p>Thử từ khóa hoặc khoảng giá khác nhé.</p></div>
+            }
+            else
+            {
+                <div class="product-grid">
+                    @foreach (var product in Model.Products)
+                    {
+                        <article class="product-card">
+                            <a class="product-image" asp-page="/Product/Details" asp-route-id="@product.Id">
+                                <img src="@product.ImageUrl" alt="@product.Name" />
+                                <span class="product-tag">@product.Category</span>
+                            </a>
+                            <div class="product-info">
+                                <div><h3><a asp-page="/Product/Details" asp-route-id="@product.Id">@product.Name</a></h3><p>@product.Description</p></div>
+                                <strong>@product.Price.ToString("N0") ₫</strong>
+                            </div>
+                            <a class="text-link" asp-page="/Product/Details" asp-route-id="@product.Id">Xem chi tiết <span aria-hidden="true">→</span></a>
+                        </article>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</section>

@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f3ee" />
+    <title>@ViewData["Title"] - Sole Mate</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="admin-shell">
+            <aside class="admin-sidebar">
+                <a class="admin-brand" asp-page="/Admin/Index"><span>⚡</span> Sole Mate <small>ADMIN</small></a>
+                <div class="admin-profile">
+                    <span class="admin-avatar">@(User.Identity?.Name?.Substring(0, 1).ToUpperInvariant() ?? "A")</span>
+                    <div><strong>@User.Identity?.Name</strong><small>Quản trị viên</small></div>
+                    <a asp-page="/Logout" aria-label="Đăng xuất" title="Đăng xuất">↪</a>
+                </div>
+                <nav class="admin-menu" aria-label="Điều hướng quản trị">
+                    <a class="@(ViewContext.RouteData.Values["page"]?.ToString() == "/Admin/Index" ? "active" : "")" asp-page="/Admin/Index"><span>▦</span>Tổng quan</a>
+                    <a class="@(ViewContext.RouteData.Values["page"]?.ToString() == "/Admin/Orders" ? "active" : "")" asp-page="/Admin/Orders"><span>▤</span>Quản lý đơn hàng</a>
+                    <a class="@(ViewContext.RouteData.Values["page"]?.ToString() == "/Admin/Products" ? "active" : "")" asp-page="/Admin/Products"><span>◈</span>Quản lý sản phẩm</a>
+                    <a class="@(ViewContext.RouteData.Values["page"]?.ToString() == "/Admin/Customers" ? "active" : "")" asp-page="/Admin/Customers"><span>♙</span>Quản lý khách hàng</a>
+                    <a class="@(ViewContext.RouteData.Values["page"]?.ToString() == "/Admin/Accounts" ? "active" : "")" asp-page="/Admin/Accounts"><span>♧</span>Quản lý tài khoản</a>
+                </nav>
+                <a class="admin-store-link" asp-page="/Index">← Xem cửa hàng</a>
+            </aside>
+            <div class="admin-workspace">
+                <header class="admin-topbar"><span>KHU VỰC QUẢN TRỊ</span><span>Xin chào, @User.Identity?.Name</span></header>
+                <main class="admin-content" role="main">@RenderBody()</main>
+            </div>
+        </div>
+    }
+    else
+    {
+        <header class="site-header">
+            <div class="store-announcement">Miễn phí vận chuyển cho đơn hàng từ 1.000.000₫ <span aria-hidden="true">|</span> Hỗ trợ khách hàng mỗi ngày</div>
+            <nav class="navbar">
+                <a class="brand" asp-page="/Index"><span class="brand-mark">S</span>SOLE MATE<span class="brand-dot">.</span></a>
+                <div class="nav-links"><a asp-page="/Index">Trang chủ</a><a href="/#products">Sản phẩm</a><a href="/#products">Khuyến mãi</a></div>
+                <form class="nav-search" method="get" asp-page="/Index">
+                    <label class="sr-only" for="quick-search">Tìm sản phẩm</label>
+                    <input id="quick-search" name="SearchQuery" placeholder="Tìm sản phẩm..." />
+                    <button type="submit" aria-label="Tìm kiếm">⌕</button>
+                </form>
+                <div class="nav-actions">
+                    @if (User.IsInRole("User"))
+                    {
+                        <a class="cart-icon-link" asp-page="/Cart" aria-label="Giỏ hàng" title="Giỏ hàng">▢</a>
+                        <span class="nav-user">@User.Identity?.Name</span>
+                        <a class="nav-login" asp-page="/Logout">Thoát</a>
+                    }
+                    else
+                    {
+                        <a class="cart-icon-link" asp-page="/Login" aria-label="Đăng nhập để xem giỏ hàng" title="Giỏ hàng">▢</a>
+                        <a class="nav-login" asp-page="/Login"><span aria-hidden="true">◉</span> Đăng nhập</a>
+                    }
+                </div>
+            </nav>
+        </header>
+        <main role="main">
+            @RenderBody()
+        </main>
+        <footer class="site-footer" id="about">
+            <a class="brand" asp-page="/Index"><span class="brand-mark">S</span>SOLE MATE<span class="brand-dot">.</span></a>
+            <span>Giày tốt, hành trình đẹp hơn.</span>
+            <small>© 2026 Sole Mate. Website demo cửa hàng giày.</small>
+        </footer>
+    }
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

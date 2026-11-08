@@ -1,0 +1,33 @@
+@page
+@model Razor_WebApplication.Pages.Admin.ProductsModel
+@{
+    ViewData["Title"] = "Quản lý sản phẩm";
+}
+<section class="admin-page">
+    <div class="section-heading"><div><span class="eyebrow">DANH MỤC CỬA HÀNG</span><h2>Quản lý sản phẩm</h2></div><span class="muted">@Model.Products.Count sản phẩm</span></div>
+    @if (Model.Message is not null) { <div class="@(Model.IsError ? "alert-error" : "alert-success")">@Model.Message</div> }
+    <div class="admin-form-card">
+        <h3>@(Model.Id == 0 ? "Thêm sản phẩm mới" : "Cập nhật sản phẩm")</h3>
+        <form method="post" asp-page-handler="Save" class="admin-product-form">
+            <input type="hidden" asp-for="Id" />
+            <div class="field"><label asp-for="Name">Tên sản phẩm</label><input asp-for="Name" required /></div>
+            <div class="field"><label asp-for="Category">Danh mục</label><input asp-for="Category" required /></div>
+            <div class="field"><label asp-for="Price">Giá bán</label><input asp-for="Price" type="number" min="1" step="1000" required /></div>
+            <div class="field"><label asp-for="Stock">Tồn kho</label><input asp-for="Stock" type="number" min="0" required /></div>
+            <div class="field"><label asp-for="ImageUrl">Đường dẫn hình ảnh</label><input asp-for="ImageUrl" type="url" required /></div>
+            <div class="field"><label asp-for="Description">Mô tả</label><input asp-for="Description" required /></div>
+            <button class="button button-dark">@(Model.Id == 0 ? "Thêm sản phẩm" : "Lưu thay đổi")</button>
+            @if (Model.Id != 0) { <a class="button button-light" asp-page="/Admin/Products">Hủy chỉnh sửa</a> }
+        </form>
+    </div>
+    <div class="table-wrap">
+        <table class="data-table"><thead><tr><th>Sản phẩm</th><th>Danh mục</th><th>Giá</th><th>Tồn kho</th><th>Thao tác</th></tr></thead>
+            <tbody>
+            @foreach (var product in Model.Products)
+            {
+                <tr><td><div class="table-product"><img src="@product.ImageUrl" alt="" /><strong>@product.Name</strong></div></td><td>@product.Category</td><td>@product.Price.ToString("N0")₫</td><td>@product.Stock</td><td class="table-actions"><a asp-page="/Admin/Products" asp-route-id="@product.Id">Sửa</a><form method="post" asp-page-handler="Delete" asp-route-id="@product.Id"><button class="danger-link" type="submit">Xóa</button></form></td></tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</section>

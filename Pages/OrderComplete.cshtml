@@ -1,0 +1,11 @@
+@page
+@model Razor_WebApplication.Pages.OrderCompleteModel
+@{
+    ViewData["Title"] = "Đặt hàng thành công";
+}
+<section class="empty-state order-success">
+    <span>✓</span><span class="eyebrow">ĐẶT HÀNG THÀNH CÔNG</span>
+    <h1>Cảm ơn bạn đã tin chọn Sole Mate.</h1>
+    <p>Đơn hàng <strong>#@Model.OrderId</strong> đã được ghi nhận. Chúng tôi sẽ sớm liên hệ với bạn.</p>
+    <a class="button button-dark" asp-page="/Index">Tiếp tục mua sắm</a>
+</section>

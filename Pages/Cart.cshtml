@@ -1,0 +1,49 @@
+@page
+@model Razor_WebApplication.Pages.CartModel
+@{
+    ViewData["Title"] = "Giỏ hàng";
+}
+<section class="shop-section">
+    <div class="section-heading">
+        <div><span class="eyebrow">GIỎ HÀNG CỦA BẠN</span><h2>Sẵn sàng cho bước tiếp?</h2></div>
+        <a class="text-link" asp-page="/Index">← Tiếp tục mua sắm</a>
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Model.Message))
+    {
+        <div class="alert-error">@Model.Message</div>
+    }
+    @if (Model.Lines.Count == 0)
+    {
+        <div class="empty-state"><span>🛍️</span><h3>Giỏ hàng đang trống</h3><p>Chọn một đôi giày bạn yêu thích nhé.</p><a class="button button-dark" asp-page="/Index">Khám phá sản phẩm</a></div>
+    }
+    else
+    {
+        <div class="cart-layout">
+            <div class="cart-lines">
+                @foreach (var line in Model.Lines)
+                {
+                    <article class="cart-line">
+                        <img src="@line.Product.ImageUrl" alt="@line.Product.Name" />
+                        <div class="cart-line-info"><span class="eyebrow">@line.Product.Category</span><h3>@line.Product.Name</h3><span class="cart-size">Size EU @line.Size</span><strong>@line.Product.Price.ToString("N0")₫</strong></div>
+                        <form method="post" asp-page-handler="Update" class="quantity-form">
+                            <input type="hidden" name="productId" value="@line.Product.Id" />
+                            <input type="hidden" name="size" value="@line.Size" />
+                            <input type="number" name="quantity" min="0" max="@line.Product.Stock" value="@line.Quantity" aria-label="Số lượng @line.Product.Name" />
+                            <button class="text-link" type="submit">Cập nhật</button>
+                        </form>
+                    </article>
+                }
+            </div>
+            <aside class="cart-summary">
+                <h3>Tóm tắt đơn hàng</h3>
+                <div><span>Tạm tính</span><strong>@Model.Total.ToString("N0")₫</strong></div>
+                <div><span>Phí vận chuyển</span><strong>Miễn phí</strong></div>
+                <div class="summary-total"><span>Tổng cộng</span><strong>@Model.Total.ToString("N0")₫</strong></div>
+                <form method="post" asp-page-handler="Checkout">
+                    <button class="button button-dark button-full">Đặt hàng <span aria-hidden="true">→</span></button>
+                </form>
+                <small>Đơn hàng sẽ được xác nhận qua thông tin tài khoản của bạn.</small>
+            </aside>
+        </div>
+    }
+</section>

@@ -1,0 +1,44 @@
+@page "{id:int}"
+@model Razor_WebApplication.Pages.Product.DetailsModel
+@{
+    ViewData["Title"] = Model.Product?.Name ?? "Sản phẩm";
+}
+@if (Model.Product is not null)
+{
+    <div class="breadcrumb"><a asp-page="/Index">Trang chủ</a><span>/</span><span>@Model.Product.Category</span></div>
+    <section class="detail-layout">
+        <div class="detail-image"><img src="@Model.Product.ImageUrl" alt="@Model.Product.Name" /></div>
+        <div class="detail-copy">
+            <span class="eyebrow">@Model.Product.Category.ToUpperInvariant()</span>
+            <h1>@Model.Product.Name</h1>
+            <div class="detail-price">@Model.Product.Price.ToString("N0")₫</div>
+            <p>@Model.Product.Description</p>
+            <p class="stock-note">Còn @Model.Product.Stock sản phẩm trong kho</p>
+            @if (TempData["Message"] is string message)
+            {
+                <div class="alert-success">@message</div>
+            }
+            @if (User.IsInRole("User"))
+            {
+                <form method="post" asp-page-handler="AddToCart" class="add-cart-form">
+                    <input type="hidden" asp-for="Id" />
+                    <label for="Size">Size giày</label>
+                    <select id="Size" asp-for="Size">
+                        @foreach (var size in Model.AvailableSizes)
+                        {
+                            <option value="@size">EU @size</option>
+                        }
+                    </select>
+                    <label for="quantity">Số lượng</label>
+                    <input id="quantity" asp-for="Quantity" type="number" min="1" max="@Model.Product.Stock" value="1" />
+                    <button class="button button-dark">Thêm vào giỏ <span aria-hidden="true">→</span></button>
+                </form>
+            }
+            else
+            {
+                <a class="button button-dark" asp-page="/Login">Đăng nhập để mua hàng <span aria-hidden="true">→</span></a>
+            }
+            <div class="detail-promise">✓ Hàng chính hãng &nbsp;&nbsp; ✓ Đổi trả trong 7 ngày</div>
+        </div>
+    </section>
+}

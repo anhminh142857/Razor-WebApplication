@@ -1,0 +1,33 @@
+@page
+@model Razor_WebApplication.Pages.LoginModel
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+<section class="auth-shell">
+    <div class="auth-image">
+        <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=1200&q=85" alt="Bộ sưu tập giày thể thao" />
+        <div><span class="eyebrow">SOLE MATE / 2026</span><h1>Tìm đôi giày<br />đúng chất bạn.</h1></div>
+    </div>
+    <div class="auth-panel">
+        <span class="eyebrow">CHÀO MỪNG TRỞ LẠI</span>
+        <h2>Đăng nhập</h2>
+        <p>Đăng nhập để khám phá hành trình tiếp theo.</p>
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="alert-error" role="alert">@Model.ErrorMessage</div>
+        }
+        <form method="post" class="form-stack">
+            <input type="hidden" asp-for="ReturnUrl" />
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" type="email" placeholder="ban@email.com" autocomplete="username" required />
+            <label asp-for="Password">Mật khẩu</label>
+            <input asp-for="Password" type="password" placeholder="Nhập mật khẩu" autocomplete="current-password" required />
+            <button type="submit" class="button button-dark button-full">Đăng nhập <span aria-hidden="true">→</span></button>
+        </form>
+        <div class="demo-accounts">
+            <strong>Tài khoản demo</strong>
+            <span>Admin: admin@shoestore.vn / Admin@123</span>
+            <span>User: user@shoestore.vn / User@123</span>
+        </div>
+    </div>
+</section>

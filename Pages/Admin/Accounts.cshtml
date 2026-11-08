@@ -1,0 +1,24 @@
+@page
+@model Razor_WebApplication.Pages.Admin.AccountsModel
+@{
+    ViewData["Title"] = "Quản lý tài khoản";
+}
+<section class="admin-page">
+    <div class="section-heading"><div><span class="eyebrow">PHÂN QUYỀN</span><h2>Quản lý tài khoản người dùng</h2><p class="page-description">Tổng cộng @Model.Accounts.Count tài khoản theo dõi hoạt động trong cửa hàng.</p></div><a class="button button-dark" href="#create-account">＋ Thêm tài khoản</a></div>
+    @if (Model.Message is not null) { <div class="@(Model.IsError ? "alert-error" : "alert-success")">@Model.Message</div> }
+    <div class="admin-form-card" id="create-account">
+        <h3>Tạo tài khoản mới</h3>
+        <form method="post" class="account-form">
+            <div class="field"><label asp-for="FullName">Họ và tên</label><input asp-for="FullName" required /></div>
+            <div class="field"><label asp-for="Email">Email</label><input asp-for="Email" type="email" required /></div>
+            <div class="field"><label asp-for="Password">Mật khẩu</label><input asp-for="Password" type="password" minlength="8" required /></div>
+            <div class="field"><label asp-for="Role">Vai trò</label><select asp-for="Role"><option value="User">Khách hàng</option><option value="Admin">Quản trị viên</option></select></div>
+            <button class="button button-dark">Tạo tài khoản</button>
+        </form>
+    </div>
+    <div class="table-wrap">
+        <table class="data-table"><thead><tr><th>Họ và tên</th><th>Email</th><th>Vai trò</th><th>Ngày tạo</th></tr></thead>
+            <tbody>@foreach (var account in Model.Accounts) { <tr><td><strong>@account.FullName</strong></td><td>@account.Email</td><td><span class="status-pill">@(account.Role == "Admin" ? "Quản trị viên" : "Khách hàng")</span></td><td>@account.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy")</td></tr> }</tbody>
+        </table>
+    </div>
+</section>
